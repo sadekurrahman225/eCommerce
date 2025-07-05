@@ -1,0 +1,24 @@
+name: Automated Daily Commits
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight UTC
+jobs:
+  auto_commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Generate random commits
+        run: |
+          COMMIT_COUNT=$((RANDOM % 6 + 3)) # Random number between 3 and 8
+          for ((i=1; i<=COMMIT_COUNT; i++)); do
+            echo "$(date +%Y-%m-%d\ %H:%M:%S) - Commit $i" >> commit_log.txt
+            git config user.name "Automated Commit Bot"
+            git config user.email "bot@example.com"
+            git add commit_log.txt
+            git commit -m "Automated commit $i on $(date +%Y-%m-%d)"
+            sleep 1 # Prevent timestamp conflicts
+          done
+      - name: Push changes
+        run: |
+          git push origin main
