@@ -2,8 +2,8 @@ name: Automated Daily Commits
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Runs every 5 minutes (for testing)
-  workflow_dispatch:        # Allows manual trigger from GitHub UI
+    - cron: '*/5 * * * *'  # Every 5 minutes for testing
+  workflow_dispatch:
 
 jobs:
   auto_commit:
@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Git
         run: |
@@ -19,7 +21,7 @@ jobs:
 
       - name: Generate random commits
         run: |
-          COMMIT_COUNT=$((RANDOM % 6 + 3)) # 3 to 8 commits
+          COMMIT_COUNT=$((RANDOM % 6 + 3))
           for ((i=1; i<=COMMIT_COUNT; i++)); do
             echo "$(date '+%Y-%m-%d %H:%M:%S') - Commit $i" >> commit_log.txt
             git add commit_log.txt
@@ -29,4 +31,4 @@ jobs:
 
       - name: Push changes
         run: |
-          git push origin HEAD:main
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
