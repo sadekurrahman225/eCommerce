@@ -16,7 +16,7 @@ jobs:
 
       - name: Setup Git
         run: |
-          git config --global user.name "Automated Commit Bot"
+          git config --global user.name "Sadekur"
           git config --global user.email "bot@example.com"
 
       - name: Generate random commits
