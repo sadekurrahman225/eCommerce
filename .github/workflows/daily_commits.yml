@@ -17,7 +17,7 @@ jobs:
       - name: Setup Git
         run: |
           git config --global user.name "Sadekur"
-          git config --global user.email "bot@example.com"
+          git config --global user.email "sadekur.rahman.talukder@gmail.com"
 
       - name: Generate random commits
         run: |
